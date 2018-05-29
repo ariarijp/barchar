@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -12,9 +13,16 @@ import (
 	"github.com/mattn/go-runewidth"
 )
 
+var (
+	lwOpt = flag.Int("label-width", 20, "Label width")
+	bwOpt = flag.Int("bar-width", 60, "Bar width")
+)
+
 func main() {
+	flag.Parse()
+
 	re := regexp.MustCompile(`^ *(\d+) +(.*)$`)
-	lw, tw := 20, 60
+	lw, bw := *lwOpt, *bwOpt
 
 	scanner := bufio.NewScanner(os.Stdin)
 	max, r := -1, float64(-1)
@@ -29,7 +37,7 @@ func main() {
 
 		if max < 0 {
 			max = n
-			r = float64(tw) / float64(max)
+			r = float64(bw) / float64(max)
 		}
 
 		w := int(float64(n) * float64(r))
