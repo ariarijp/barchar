@@ -16,13 +16,14 @@ import (
 var (
 	lwOpt = flag.Int("label-width", 20, "Label width")
 	bwOpt = flag.Int("bar-width", 60, "Bar width")
+	char  = flag.String("char", "#", "Character")
 )
 
 func main() {
 	flag.Parse()
 
 	re := regexp.MustCompile(`^ *(\d+) +(.*)$`)
-	lw, bw := *lwOpt, *bwOpt
+	lw, bw, char := *lwOpt, *bwOpt, *char
 
 	scanner := bufio.NewScanner(os.Stdin)
 	max, r := -1, float64(-1)
@@ -47,7 +48,7 @@ func main() {
 			ts += strings.Repeat(" ", lw-tsw)
 		}
 
-		fmt.Println(ts, strings.Repeat("#", w), n)
+		fmt.Println(ts, strings.Repeat(char, w), n)
 	}
 	if err := scanner.Err(); err != nil {
 		log.Println(err)
